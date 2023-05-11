@@ -23,7 +23,8 @@
             <TextBlock Text="Farben" Margin="10,0" FontSize="20"/>
           </StackPanel>
         </Expander.Header>
-        <Border BorderBrush="Blue" BorderThickness="10" CornerRadius="20">
+        <Border BorderBrush="Blue" BorderThickness="10,1,10,1" CornerRadius="20,5,20,5" 
+                Padding="10">
           <StackPanel>
             <RadioButton Content="Rot"/>
             <RadioButton Content="Gelb"/>
