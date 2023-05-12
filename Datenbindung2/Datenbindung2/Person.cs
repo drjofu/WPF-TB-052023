@@ -1,20 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Datenbindung2
 {
-  class Person
+  class Person : INotifyPropertyChanged
   {
     public string Vorname { get; set; }
     public string Nachname { get; set; }
-    public int Alter { get; set; }
+    //public int Alter { get; set; }
+    private int alter;
+
+    public int Alter
+    {
+      get { return alter; }
+      set
+      {
+        if (alter == value) return;
+
+        alter = value;
+        //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AlterXXX"));
+        //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IstErfahren"));
+
+        OnPropertyChanged();
+        OnPropertyChanged(nameof(IstErfahren));
+      }
+    }
+
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
     public bool IstErfahren => Alter > 65;
+
+    public event PropertyChangedEventHandler PropertyChanged;
   }
 
   class Firma
   {
     public string Name { get; set; } = "Hinz & Kunz";
-    public List<Person> Mitarbeiter { get; set; } = new()
+    public ObservableCollection<Person> Mitarbeiter { get; set; } = new()
     {
         new Person() {Vorname="Dagobert", Nachname="Duck", Alter=78},
         new Person() {Vorname="Donald", Nachname="Duck", Alter=55},

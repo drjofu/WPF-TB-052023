@@ -5,32 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Datenbindung2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-  <StackPanel>
+        Title="MainWindow" Height="450" Width="400">
+  <Window.Resources>
+    <DataTemplate x:Key="PersonTemplate">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="B"/>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="C"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding Vorname}"/>
+        <TextBlock Text="{Binding Nachname}" Grid.Column="1" Margin="10,0"/>
+        <TextBlock Name="TBAlter" Text="{Binding Alter}" Grid.Column="2"/>
+      </Grid>
+      <DataTemplate.Triggers>
+        <DataTrigger Binding="{Binding IstErfahren}" Value="True">
+          <Setter TargetName="TBAlter"  Property="Background" Value="DarkGreen" />
+          <Setter TargetName="TBAlter"  Property="Foreground" Value="LightGreen" />
+          <Setter TargetName="TBAlter"  Property="FontWeight" Value="Bold" />
+        </DataTrigger>
+      </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:Person}">
+      <TextBlock Text="{Binding Vorname}" FontWeight="Bold"/>
+    </DataTemplate>
+    
+  </Window.Resources>
+  <StackPanel Grid.IsSharedSizeScope="True">
     <TextBlock Text="{Binding Mitarbeiter[0].Vorname[0]}" Margin="5"/>
-    <ListBox ItemsSource="{Binding Mitarbeiter}" Margin="5" 
-             Grid.IsSharedSizeScope="True">
-      <ListBox.ItemTemplate>
-        <DataTemplate>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
-              <ColumnDefinition Width="Auto" SharedSizeGroup="B"/>
-              <ColumnDefinition Width="Auto" SharedSizeGroup="C"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Vorname}"/>
-            <TextBlock Text="{Binding Nachname}" Grid.Column="1" Margin="10,0"/>
-            <TextBlock Name="TBAlter" Text="{Binding Alter}" Grid.Column="2"/>
-          </Grid>
-          <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding IstErfahren}" Value="True">
-              <Setter TargetName="TBAlter"  Property="Background" Value="DarkGreen" />
-              <Setter TargetName="TBAlter"  Property="Foreground" Value="LightGreen" />
-              <Setter TargetName="TBAlter"  Property="FontWeight" Value="Bold" />
-            </DataTrigger>
-          </DataTemplate.Triggers>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+    <ListBox Name="LB" ItemsSource="{Binding Mitarbeiter}" Margin="5" 
+             ItemTemplate="{StaticResource PersonTemplate}"
+             MaxHeight="300"/>
+
+    <Label Content="{Binding ElementName=LB, Path=SelectedItem}"
+           ContentTemplate="{StaticResource PersonTemplate}" 
+           Margin="5" Background="Salmon"/>
+    <Label Content="{Binding ElementName=LB, Path=SelectedItem}"
+           Margin="5" Background="AliceBlue"/>
+    <Button Content="Die Jahre vergehen..." Click="AlterÄndern" Margin="5"/>
+    <Button Content="Neuer Mitarbeiter" Click="NeuerMitarbeiter" Margin="5"/>
   </StackPanel>
 </Window>
