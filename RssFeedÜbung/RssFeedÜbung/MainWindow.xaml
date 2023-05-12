@@ -21,6 +21,7 @@
 
     <TextBlock Text="{Binding Title.Text}" FontSize="30" HorizontalAlignment="Center" Grid.ColumnSpan="99" FontWeight="Bold" />
     <Image Source="{Binding ImageUrl}" Grid.Row="1" Width="200"/>
+    <TextBlock Text="{Binding Description.Text}" Grid.Row="1" Grid.Column="2" TextWrapping="Wrap"/>
   </Grid>
 </Window>
                                                                                                                         
