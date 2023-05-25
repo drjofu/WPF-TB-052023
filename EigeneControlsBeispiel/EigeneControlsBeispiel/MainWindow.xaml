@@ -7,9 +7,29 @@
         xmlns:VerkehrsControls="clr-namespace:VerkehrsControls;assembly=VerkehrsControls" x:Class="EigeneControlsBeispiel.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+  <Window.Resources>
+    <Style x:Key="AmpelStyle1" TargetType="{x:Type VerkehrsControls:Ampel}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type VerkehrsControls:Ampel}">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+              <StackPanel Margin="5">
+                <Rectangle x:Name="PART_LampeRot" Fill="Red" Height="50" Margin="5" Width="50"/>
+                <Rectangle x:Name="PART_LampeGrün" Fill="LightGreen" Height="50" Margin="5" Width="50"/>
+              </StackPanel>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Resources>
   <Grid>
 
-    <VerkehrsControls:Ampel HorizontalAlignment="Left" Margin="221,129,0,0" VerticalAlignment="Top" Background="#FF2D2C2C"/>
+    <VerkehrsControls:Ampel HorizontalAlignment="Left" Margin="221,129,0,0" VerticalAlignment="Top" Background="#FF2D2C2C" 
+                            IstRot="{Binding IsChecked, ElementName=checkBox}" />
+    <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="369,194,0,0" VerticalAlignment="Top"/>
+    <VerkehrsControls:Ampel Style="{DynamicResource AmpelStyle1}" HorizontalAlignment="Left" Margin="535,129,0,0" VerticalAlignment="Top" Background="#FF2D2C2C" 
+      IstRot="{Binding IsChecked, ElementName=checkBox}" />
 
   </Grid>
 </Window>

@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace VerkehrsControls
 {
@@ -32,6 +35,9 @@ namespace VerkehrsControls
   ///     <MyNamespace:CustomControl1/>
   ///
   /// </summary>
+  //[DefaultProperty(nameof(IstRot))]
+  [TemplatePart(Name = "PART_LampeRot", Type = typeof(Shape))]
+  [TemplatePart(Name = "PART_LampeGrün", Type = typeof(Shape))]
   public class Ampel : Control
   {
     static Ampel()
@@ -39,6 +45,11 @@ namespace VerkehrsControls
       DefaultStyleKeyProperty.OverrideMetadata(typeof(Ampel), new FrameworkPropertyMetadata(typeof(Ampel)));
     }
 
+    private Shape lampeRot;
+    private Shape lampeGrün;
+
+    [Category("Verkehr")]
+    [Description("Schaltet um zwischen Rot und Grün")]
     public bool IstRot
     {
       get { return (bool)GetValue(IstRotProperty); }
@@ -47,9 +58,40 @@ namespace VerkehrsControls
 
     // Using a DependencyProperty as the backing store for IstRot.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty IstRotProperty =
-        DependencyProperty.Register(nameof(IstRot), typeof(bool), typeof(Ampel), 
-          new FrameworkPropertyMetadata(true));
+        DependencyProperty.Register(nameof(IstRot), typeof(bool), typeof(Ampel),
+          new FrameworkPropertyMetadata(true,
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            OnIstRotChanged));
 
+    private static void OnIstRotChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      Ampel ampel = (Ampel)d;
+      ampel.Schalten();
+    }
 
+    public override void OnApplyTemplate()
+    {
+      base.OnApplyTemplate();
+      lampeRot = (Shape)this.GetTemplateChild("PART_LampeRot");
+      lampeGrün = (Shape)GetTemplateChild("PART_LampeGrün");
+      Schalten();
+    }
+
+    private void Schalten()
+    {
+      // Template gesetzt?
+      if (lampeRot == null) return;
+
+      if (IstRot)
+      {
+        lampeRot.Opacity = 1;
+        lampeGrün.Opacity = 0.2;
+      }
+      else
+      {
+        lampeGrün.Opacity = 1;
+        lampeRot.Opacity = 0.2;
+      }
+    }
   }
 }
