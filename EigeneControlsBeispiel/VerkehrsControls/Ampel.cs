@@ -38,5 +38,18 @@ namespace VerkehrsControls
     {
       DefaultStyleKeyProperty.OverrideMetadata(typeof(Ampel), new FrameworkPropertyMetadata(typeof(Ampel)));
     }
+
+    public bool IstRot
+    {
+      get { return (bool)GetValue(IstRotProperty); }
+      set { SetValue(IstRotProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for IstRot.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty IstRotProperty =
+        DependencyProperty.Register(nameof(IstRot), typeof(bool), typeof(Ampel), 
+          new FrameworkPropertyMetadata(true));
+
+
   }
 }
