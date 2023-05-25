@@ -6,12 +6,44 @@
         xmlns:local="clr-namespace:MVVMMini"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+  <Window.Resources>
+  </Window.Resources>
+  <Window.DataContext>
+    <local:ViewModel/>
+  </Window.DataContext>
+  <Window.InputBindings>
+    <KeyBinding Gesture="Ctrl+P" Command="{Binding PlusCommand}"/>
+    <KeyBinding Gesture="Ctrl+M" Command="{Binding MinusCommand}"/>
+    <KeyBinding Key="Add" Modifiers="Alt" Command="{Binding PlusCommand}"/>
+  </Window.InputBindings>
   <Grid>
-    <TextBox HorizontalAlignment="Left" Margin="186,147,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-    <TextBox HorizontalAlignment="Left" Margin="354,147,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-    <TextBlock HorizontalAlignment="Left" Margin="293,199,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-    <Button Content="+" HorizontalAlignment="Left" Margin="246,249,0,0" VerticalAlignment="Top" Width="50"/>
-    <Button Content="-" HorizontalAlignment="Left" Margin="364,249,0,0" VerticalAlignment="Top" Width="50"/>
+    <TextBox HorizontalAlignment="Left" Margin="186,147,0,0" TextWrapping="Wrap" Text="{Binding Zahl1,UpdateSourceTrigger=PropertyChanged,Delay=500}" VerticalAlignment="Top" Width="120"/>
+    <TextBox HorizontalAlignment="Left" Margin="354,147,0,0" TextWrapping="Wrap" Text="{Binding Zahl2,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+    <TextBlock HorizontalAlignment="Left" Margin="293,199,0,0" TextWrapping="Wrap" Text="{Binding Ergebnis}" VerticalAlignment="Top"/>
+    <Button Content="+" HorizontalAlignment="Left" Margin="246,249,0,0" VerticalAlignment="Top" Width="50" Command="{Binding PlusCommand}"/>
+    <Button Content="-" HorizontalAlignment="Left" Margin="364,249,0,0" VerticalAlignment="Top" Width="50" Command="{Binding MinusCommand}"/>
+    <Slider HorizontalAlignment="Left" Margin="186,116,0,0" VerticalAlignment="Top" Width="120" Maximum="10000" Value="{Binding Zahl1}"/>
+    <Slider HorizontalAlignment="Left" Margin="354,116,0,0" VerticalAlignment="Top" Width="120" Maximum="10000" Value="{Binding Zahl2}"/>
+    <Menu VerticalAlignment="Top">
+      <MenuItem Header="Rechnen">
+        <MenuItem Header="+" ToolTip="Addition" Command="{Binding PlusCommand}" InputGestureText="Ctrl+P"/>
+        <MenuItem Header="-" ToolTip="Subtraktion" Command="{Binding MinusCommand}"/>
+      </MenuItem>
+    </Menu>
+
+    <ItemsControl  Margin="558,195,112,117" ItemsSource="{Binding Commands}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate >
+          <Button Content="{Binding DisplayText}" ToolTip="{Binding ToolTipText}" Command="{Binding}" 
+                  Margin="2"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <UniformGrid/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
 
   </Grid>
 </Window>

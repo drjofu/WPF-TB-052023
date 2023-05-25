@@ -5,6 +5,9 @@ namespace MVVMMini
 {
   public class ActionCommand : ICommand
   {
+    public string DisplayText { get; set; }
+    public string ToolTipText { get; set; }
+
     private readonly Action action;
     private readonly Action<object> action2;
 
@@ -31,14 +34,14 @@ namespace MVVMMini
     }
 
 
-    public event EventHandler? CanExecuteChanged;
+    public event EventHandler CanExecuteChanged;
 
-    public bool CanExecute(object? parameter)
+    public bool CanExecute(object parameter)
     {
       return isEnabled;
     }
 
-    public void Execute(object? parameter)
+    public void Execute(object parameter)
     {
       action?.Invoke();
       action2?.Invoke(parameter);

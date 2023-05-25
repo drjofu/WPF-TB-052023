@@ -21,7 +21,7 @@ namespace MVVMMini
     public int Zahl1
     {
       get { return zahl1; }
-      set { zahl1 = value; }
+      set { zahl1 = value; OnPropertyChanged(); }
     }
 
     private int zahl2;
@@ -29,7 +29,12 @@ namespace MVVMMini
     public int Zahl2
     {
       get { return zahl2; }
-      set { zahl2 = value; }
+      set
+      {
+        if (zahl2 == value) return;
+        zahl2 = value;
+        OnPropertyChanged();
+      }
     }
 
     private int ergebnis;
@@ -43,21 +48,32 @@ namespace MVVMMini
     public ActionCommand PlusCommand { get; set; }
     public ActionCommand MinusCommand { get; set; }
 
+    public List<ActionCommand> Commands { get; set; }
+
     public ViewModel()
     {
-      PlusCommand = new ActionCommand(Plus);
-      MinusCommand = new ActionCommand(Minus);
+      PlusCommand = new ActionCommand(Plus) { DisplayText = "+", ToolTipText = "Addition" };
+      MinusCommand = new ActionCommand(Minus) { DisplayText = "-", ToolTipText = "Subtraktion" };
+
+      Commands = new List<ActionCommand>()
+      {
+       PlusCommand,
+       MinusCommand,
+       new ActionCommand(()=>Ergebnis=Zahl1 * Zahl2) { DisplayText="*", ToolTipText="Plutimikation"}
+      };
     }
 
     private void Plus()
     {
       // hier würde das Model aufgerufen werden
       Ergebnis = Zahl1 + Zahl2;
+      PlusCommand.IsEnabled = false;
     }
 
     private void Minus()
     {
       Ergebnis = Zahl1 - Zahl2;
+      PlusCommand.IsEnabled = true;
     }
   }
 }
