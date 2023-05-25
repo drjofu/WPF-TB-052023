@@ -21,7 +21,11 @@
     <TextBlock HorizontalAlignment="Left" Margin="293,199,0,0" TextWrapping="Wrap" Text="{Binding Ergebnis}" VerticalAlignment="Top"/>
     <Button Content="+" HorizontalAlignment="Left" Margin="246,249,0,0" VerticalAlignment="Top" Width="50" Command="{Binding PlusCommand}"/>
     <Button Content="-" HorizontalAlignment="Left" Margin="364,249,0,0" VerticalAlignment="Top" Width="50" Command="{Binding MinusCommand}"/>
-    <Slider HorizontalAlignment="Left" Margin="186,116,0,0" VerticalAlignment="Top" Width="120" Maximum="10000" Value="{Binding Zahl1}"/>
+    <Slider HorizontalAlignment="Left" Margin="186,116,0,0" VerticalAlignment="Top" Width="120" Maximum="10000" Value="{Binding Zahl1}">
+      <b:Interaction.Behaviors>
+        <local:SliderMouseWheelBehavior/>
+      </b:Interaction.Behaviors>
+    </Slider>
     <Slider HorizontalAlignment="Left" Margin="354,116,0,0" VerticalAlignment="Top" Width="120" Maximum="10000" Value="{Binding Zahl2}"/>
     <Menu VerticalAlignment="Top">
       <MenuItem Header="Rechnen">
@@ -66,6 +70,9 @@
           <b:InvokeCommandAction Command="{Binding MinusCommand}"/>
         </b:EventTrigger>
       </b:Interaction.Triggers>
+      <b:Interaction.Behaviors>
+        <b:MouseDragElementBehavior/>
+      </b:Interaction.Behaviors>
     </Ellipse>
 
   </Grid>
