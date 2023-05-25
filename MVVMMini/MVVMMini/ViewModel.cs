@@ -43,11 +43,21 @@ namespace MVVMMini
     public ActionCommand PlusCommand { get; set; }
     public ActionCommand MinusCommand { get; set; }
 
+    public ViewModel()
+    {
+      PlusCommand = new ActionCommand(Plus);
+      MinusCommand = new ActionCommand(Minus);
+    }
 
     private void Plus()
     {
       // hier würde das Model aufgerufen werden
+      Ergebnis = Zahl1 + Zahl2;
+    }
 
+    private void Minus()
+    {
+      Ergebnis = Zahl1 - Zahl2;
     }
   }
 }
