@@ -4,9 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ValidierungBeispiel"
-        mc:Ignorable="d"
+        mc:Ignorable="d" FontSize="25"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+  <Window.DataContext>
+    <local:Daten/>
+  </Window.DataContext>
+  <StackPanel>
+    <TextBox Margin="5" Text="{Binding GeradeZahl, ValidatesOnExceptions=True}" 
+             Style="{StaticResource ControlErrorTemplate}"/>
+    <TextBox Margin="5" Text="{Binding GeradeZahl2, ValidatesOnDataErrors=True}"
+             Style="{StaticResource ControlErrorTemplate}"/>
+    <TextBox Margin="5" Style="{StaticResource ControlErrorTemplate}">
+      <TextBox.Text>
+        <Binding Path="GeradeZahl3" >
+          <Binding.ValidationRules>
+            <local:GeradeZahlValidationRule/>
+          </Binding.ValidationRules>
+        </Binding>
+      </TextBox.Text>
+    </TextBox>
+    <TextBox Margin="5"/>
+  </StackPanel>
 </Window>
